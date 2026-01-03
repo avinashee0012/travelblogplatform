@@ -1,6 +1,6 @@
 # Travel Blog Platform
 
-This project is a Spring Boot–based backend for a Travel Blog Platform, designed to demonstrate real-world backend development practices using modern Java technologies. The application supports secure user authentication with JWT, role-based access control (RBAC), and a clean RESTful API architecture. Users can read travel blogs publicly, while authenticated authors can create and manage their own blog posts. Administrators have moderation capabilities to approve, reject, or remove content, ensuring platform quality and safety. The system follows a layered MVC architecture, uses Spring Data JPA with MySQL for persistence, and is documented using Swagger (OpenAPI). Emphasis is placed on clean code, clear domain modeling, and testability, with unit tests written using JUnit 5 and Mockito and a TDD-friendly workflow.
+This project is a Spring Boot–based backend for a Travel Blog Platform, designed to demonstrate real-world backend development practices using modern Java technologies. The application supports secure user authentication with JWT, role-based access control (RBAC), and a clean RESTful API architecture. Users can read travel blogs publicly, while authenticated authors can create and manage their own blog posts. Administrators have moderation capabilities ensuring platform quality and safety. The system follows a layered MVC architecture, uses Spring Data JPA with MySQL for persistence, and is documented using Swagger (OpenAPI). Emphasis is placed on clean code, clear domain modeling, and testability, with unit tests written using JUnit 5 and Mockito and a TDD-friendly workflow.
 
 ## Tech Stack
 
@@ -33,7 +33,8 @@ Java 17, OOP, Spring Boot 3, Spring MVC, Spring Data JPA, MySQL, Spring Security
     - Blog status management:
         * `DRAFT`
         * `PUBLISHED`
-        * `REJECTED`
+        * `NEED_REVIEW`
+        * `REMOVED`
 
     Only published blogs are visible to the public.
 
@@ -56,9 +57,7 @@ Java 17, OOP, Spring Boot 3, Spring MVC, Spring Data JPA, MySQL, Spring Security
         * Is written by one user
     - Users can edit or delete their own comments
     - Admins can moderate or hide any comment
-    - Comment status:
-        * `VISIBLE`
-        * `HIDDEN`
+    - Comment visibility: true or false
 
     No nested or threaded comments (intentional for simplicity).
 
