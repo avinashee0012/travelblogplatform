@@ -29,8 +29,8 @@ public class Blog extends Auditor{
     @Size(min = 100, max = 2000)
     private String content;
 
-    private String imageUrl;
-    private String videoUrl;
+    private String imageUrl = "";
+    private String videoUrl = "";
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.DRAFT;
@@ -46,12 +46,9 @@ public class Blog extends Auditor{
         // FOR JPA
     }
 
-    public Blog(String title, @Size(min = 100, max = 2000) String content, String imageUrl,
-            String videoUrl, User author, Category category) {
+    public Blog(String title, String content, User author, Category category) {
         this.title = title;
         this.content = content;
-        this.imageUrl = imageUrl;
-        this.videoUrl = videoUrl;
         this.author = author;
         this.category = category;
     }
@@ -92,5 +89,13 @@ public class Blog extends Auditor{
     // SETTERS
     public void changeStatus(Status newStatus){
         this.status = newStatus;
+    }
+
+    public void addImage(String imageUrl){
+        this.imageUrl = imageUrl;
+    }
+
+    public void addVideo(String videoUrl){
+        this.videoUrl = videoUrl;
     }
 }
