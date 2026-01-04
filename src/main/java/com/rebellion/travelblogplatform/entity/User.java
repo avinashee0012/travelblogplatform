@@ -18,10 +18,10 @@ public class User extends Auditor {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 30)
-    private String username;
+    private String username; // username will show on posts/comments
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email; // will be used to login
 
     @Column(nullable = false)
     @Size(min = 8)
