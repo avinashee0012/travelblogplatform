@@ -12,7 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 public class JwtUtil {
-    private static final String SECRET = "my_custom_secret_key_for_jwt";
+    private static final String SECRET = "my_super_secure_custom_secret_key_32_chars_min";
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 36,00,000 msec = 1 hr
 
@@ -24,7 +24,7 @@ public class JwtUtil {
     public static String generateToken(String email, Role role) {
         return Jwts.builder()
                     .subject(email)
-                    .claim("role", role)
+                    .claim("role", role.getName())
                     .issuedAt(new Date())
                     .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                     .signWith(SECRET_KEY)
@@ -44,8 +44,8 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
-    public static Role extractRole(String token){
-        return extractClaims(token).get("role", Role.class);
+    public static String extractRole(String token){
+        return extractClaims(token).get("role", String.class);
     }
 
     // TOKEN VERIFICATION
