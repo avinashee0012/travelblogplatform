@@ -6,6 +6,8 @@ This project is a Spring Boot–based backend for a Travel Blog Platform, design
 
 Java 17, OOP, Spring Boot 3, Spring MVC, Spring Data JPA, MySQL, Spring Security, JWT, Maven, Git, Swagger (OpenAPI), Logback, JUnit 5, Mockito, TDD
 
+**NOTE:** Lombok is intentionally skipped due to learning purpose.
+
 ---
 
 ## Core Features
