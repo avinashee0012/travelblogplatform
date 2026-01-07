@@ -1,17 +1,17 @@
 package com.rebellion.travelblogplatform.mapper;
 
+
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
 import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
+import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
 
 public class UserMapper {
     public static UserResponseDto toResponse(User user){
-        // TODO Implement mapper
-        return new UserResponseDto(null, null, null, null, false);
+        return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getRole().getName(), user.isActive());
     }
 
-    public static User fromUserRegisterDtoToEntity(UserRegisterDto userRegisterDto){
-        // TODO Implement mapper
-        return new User(null, null, null, null);
+    public static User fromUserRegisterDtoToEntity(UserRegisterDto userRegisterDto, String encodedPassword, Role role){
+        return new User(userRegisterDto.getUsername(), userRegisterDto.getEmail(), encodedPassword, role);
     }
 }

@@ -1,32 +1,42 @@
 package com.rebellion.travelblogplatform.service.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
 import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
+import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
 import com.rebellion.travelblogplatform.exception.DuplicateEntryException;
 import com.rebellion.travelblogplatform.mapper.UserMapper;
+import com.rebellion.travelblogplatform.repo.RoleRepo;
 import com.rebellion.travelblogplatform.repo.UserRepo;
 import com.rebellion.travelblogplatform.service.UserService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepo userRepo) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserResponseDto register(UserRegisterDto userRegisterDto) {
-        if(userRepo.findByEmail(userRegisterDto.getEmail()).isEmpty()){
-            User user = UserMapper.fromUserRegisterDtoToEntity(userRegisterDto);
-            userRepo.save(user);
+        if(!userRepo.existsByEmail(userRegisterDto.getEmail())){
+            String encodedPassword = passwordEncoder.encode(userRegisterDto.getPassword());
+            Role userRole = roleRepo.findByName("USER").orElseThrow(() -> new EntityNotFoundException("Default role USER doesn't exist"));
+            User user = UserMapper.fromUserRegisterDtoToEntity(userRegisterDto, encodedPassword, userRole);
+            if(user != null) userRepo.save(user);
             return UserMapper.toResponse(user);
         }
         throw new DuplicateEntryException("Duplicate entry for user: " + userRegisterDto.getEmail());
     }
-    
 }

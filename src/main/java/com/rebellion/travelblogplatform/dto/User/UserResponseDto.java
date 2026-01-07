@@ -5,7 +5,7 @@ public class UserResponseDto {
     private String username;
     private String email;
     private String role;
-    private boolean isActive = true;
+    private boolean isActive;
     
     public UserResponseDto(Long id, String username, String email, String role, boolean isActive) {
         this.id = id;

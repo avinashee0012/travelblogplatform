@@ -1,17 +1,30 @@
 package com.rebellion.travelblogplatform.dto.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class UserRegisterDto {
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String username;
-    private String email;
-    private String password;
-    private String role;
 
-    public UserRegisterDto(String username, String email, String password, String role) {
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
+    @Size(min = 8)
+    private String password;
+
+    public UserRegisterDto() {
+        // FOR JACKSON
+    }
+
+    public UserRegisterDto(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
     public String getUsername() {
@@ -26,7 +39,18 @@ public class UserRegisterDto {
         return password;
     }
 
-    public String getRole() {
-        return role;
+    // FOR JACKSON
+    public void setUsername(String username) {
+        this.username = username;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
 }

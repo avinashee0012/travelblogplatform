@@ -3,9 +3,11 @@ package com.rebellion.travelblogplatform.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
+import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
 import com.rebellion.travelblogplatform.service.UserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegisterDto userRegisterDto){
+    public ResponseEntity<UserResponseDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(userRegisterDto));
     }
 
