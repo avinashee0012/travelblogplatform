@@ -16,7 +16,7 @@ import com.rebellion.travelblogplatform.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
@@ -30,13 +30,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto register(UserRegisterDto userRegisterDto) {
-        if(!userRepo.existsByEmail(userRegisterDto.getEmail())){
-            String encodedPassword = passwordEncoder.encode(userRegisterDto.getPassword());
-            Role userRole = roleRepo.findByName("USER").orElseThrow(() -> new EntityNotFoundException("Default role USER doesn't exist"));
-            User user = UserMapper.fromUserRegisterDtoToEntity(userRegisterDto, encodedPassword, userRole);
-            if(user != null) userRepo.save(user);
-            return UserMapper.toResponse(user);
+        if (userRepo.existsByEmail(userRegisterDto.getEmail())) {
+            throw new DuplicateEntryException("Duplicate entry for user: " + userRegisterDto.getEmail());
         }
-        throw new DuplicateEntryException("Duplicate entry for user: " + userRegisterDto.getEmail());
+        String encodedPassword = passwordEncoder.encode(userRegisterDto.getPassword());
+        Role userRole = roleRepo.findByName("USER")
+                .orElseThrow(() -> new EntityNotFoundException("Default role USER doesn't exist"));
+        User user = UserMapper.fromUserRegisterDtoToEntity(userRegisterDto, encodedPassword, userRole);
+        if (user != null)
+            userRepo.save(user);
+        return UserMapper.toResponse(user);
     }
 }

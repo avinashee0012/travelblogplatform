@@ -7,14 +7,14 @@ import org.springframework.http.HttpStatus;
 public class ErrorResponse {
     private LocalDateTime timestamp;
     private HttpStatus status;
-    private String error;
+    private int code;
     private String message;
 
-    public ErrorResponse(HttpStatus status, String error, String message) {
+    public ErrorResponse(HttpStatus status, String message) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
-        this.error = error;
         this.message = message;
+        this.code = status.value();
     }
 
     public LocalDateTime getTimestamp() {
@@ -25,11 +25,13 @@ public class ErrorResponse {
         return status;
     }
 
-    public String getError() {
-        return error;
+    public int getCode() {
+        return code;
     }
-
+    
     public String getMessage() {
         return message;
     }
+
+    
 }
