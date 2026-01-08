@@ -6,7 +6,7 @@ import com.rebellion.travelblogplatform.dto.User.LoginResponseDto;
 import com.rebellion.travelblogplatform.dto.User.UserLoginDto;
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
 import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
-import com.rebellion.travelblogplatform.service.UserService;
+import com.rebellion.travelblogplatform.service.AuthService;
 
 import jakarta.validation.Valid;
 
@@ -21,20 +21,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(userRegisterDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userRegisterDto));
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.login(userLoginDto));
+        return ResponseEntity.status(HttpStatus.OK).body(authService.login(userLoginDto));
     }
 
     @GetMapping("/test")
