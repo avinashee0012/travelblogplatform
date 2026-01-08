@@ -26,6 +26,9 @@ public class Blog extends Auditor{
     private String title;
 
     @Column(nullable = false)
+    private String slug;
+
+    @Column(nullable = false)
     @Size(min = 100, max = 2000)
     private String content;
 
@@ -47,10 +50,11 @@ public class Blog extends Auditor{
     }
 
     public Blog(String title, String content, User author, Category category) {
-        this.title = title;
+        this.title = title.trim();
         this.content = content;
         this.author = author;
         this.category = category;
+        this.slug = convertTitleToSlug(title);
     }
 
     // GETTERS
@@ -97,5 +101,16 @@ public class Blog extends Auditor{
 
     public void addVideo(String videoUrl){
         this.videoUrl = videoUrl;
+    }
+
+    // HELPER METHODS
+    private String convertTitleToSlug(String title){
+        String[] words = title.trim().split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            sb.append(words[i]);
+            if(i != words.length - 1) sb.append("-");
+        }
+        return sb.toString();
     }
 }
