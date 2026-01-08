@@ -1,6 +1,6 @@
 package com.rebellion.travelblogplatform.dto.User;
 
-public class LoginResponseDto {
+public class LoginResponseDto { // response DTOs should be immutable
     private final String token;
     
     public LoginResponseDto(String token) {

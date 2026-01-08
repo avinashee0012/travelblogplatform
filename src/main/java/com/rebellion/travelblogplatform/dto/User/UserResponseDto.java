@@ -1,11 +1,11 @@
 package com.rebellion.travelblogplatform.dto.User;
 
-public class UserResponseDto {
-    private Long id;
-    private String username;
-    private String email;
-    private String role;
-    private boolean isActive;
+public class UserResponseDto { // response DTOs should be immutable
+    private final Long id;
+    private final String username;
+    private final String email;
+    private final String role;
+    private final boolean isActive;
     
     public UserResponseDto(Long id, String username, String email, String role, boolean isActive) {
         this.id = id;

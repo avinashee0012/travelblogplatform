@@ -17,11 +17,6 @@ public class UserLoginDto {
         // FOR JACKSON
     }
 
-    public UserLoginDto(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -38,6 +33,4 @@ public class UserLoginDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    
 }
