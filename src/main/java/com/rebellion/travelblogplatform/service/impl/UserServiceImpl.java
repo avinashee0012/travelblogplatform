@@ -3,11 +3,15 @@ package com.rebellion.travelblogplatform.service.impl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rebellion.travelblogplatform.config.jwt.JwtUtil;
+import com.rebellion.travelblogplatform.dto.User.LoginResponseDto;
+import com.rebellion.travelblogplatform.dto.User.UserLoginDto;
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
 import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
 import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
 import com.rebellion.travelblogplatform.exception.DuplicateEntryException;
+import com.rebellion.travelblogplatform.exception.InactiveUserException;
 import com.rebellion.travelblogplatform.mapper.UserMapper;
 import com.rebellion.travelblogplatform.repo.RoleRepo;
 import com.rebellion.travelblogplatform.repo.UserRepo;
@@ -40,5 +44,15 @@ public class UserServiceImpl implements UserService {
         if (user != null)
             userRepo.save(user);
         return UserMapper.toResponse(user);
+    }
+
+    @Override
+    public LoginResponseDto login(UserLoginDto userLoginDto) {
+        User user = userRepo.findByEmail(userLoginDto.getEmail()).orElseThrow(() -> new EntityNotFoundException("Invalid Login Credential"));
+        if(!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword()))
+            throw new EntityNotFoundException("Invalid Login Credential"); 
+        if(!user.isActive())
+            throw new InactiveUserException();
+        return new LoginResponseDto(JwtUtil.generateToken(user.getEmail(), user.getRole()));
     }
 }
