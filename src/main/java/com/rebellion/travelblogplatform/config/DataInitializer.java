@@ -18,28 +18,36 @@ import jakarta.persistence.EntityNotFoundException;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner initRoles(AuthService authService, UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initRoles(AuthService authService, UserRepo userRepo, RoleRepo roleRepo,
+            PasswordEncoder passwordEncoder) {
         return args -> {
-            Role userRole = new Role("USER", "Default role with least authority");
-            Role authorRole = new Role("AUTHOR", "Role assigned to an author of blog");
-            Role adminRole = new Role("ADMIN", "Priviledged role for system control");
-
-            roleRepo.save(userRole);
-            roleRepo.save(authorRole);
-            roleRepo.save(adminRole);
-
-            authService.register(new UserRegisterDto("user", "user@email.com", "userPassword"));
-
-            authService.register(new UserRegisterDto("author", "author@email.com", "authorPassword"));
-            User author = userRepo.findByEmail("author@email.com").orElseThrow(() -> new EntityNotFoundException());
-            author.changeRole(authorRole);
-            userRepo.save(author);
-
-            authService.register(new UserRegisterDto("admin", "admin@email.com", "adminPassword"));
-            User admin = userRepo.findByEmail("admin@email.com").orElseThrow(() -> new EntityNotFoundException());
-            admin.changeRole(adminRole);
-            userRepo.save(admin);
+            if(!userRepo.existsByEmail("user@email.com"))
+                setup(authService, userRepo, roleRepo, passwordEncoder);
+            else 
+                System.out.println("Skipping setup via commandline runner");
         };
     }
-}
 
+    private static void setup(AuthService authService, UserRepo userRepo, RoleRepo roleRepo,
+            PasswordEncoder passwordEncoder) {
+        Role userRole = new Role("USER", "Default role with least authority");
+        Role authorRole = new Role("AUTHOR", "Role assigned to an author of blog");
+        Role adminRole = new Role("ADMIN", "Priviledged role for system control");
+
+        roleRepo.findByName("USER").orElseGet(() -> roleRepo.save(userRole));
+        roleRepo.findByName("AUTHOR").orElseGet(() -> roleRepo.save(authorRole));
+        roleRepo.findByName("ADMIN").orElseGet(() -> roleRepo.save(adminRole));
+
+        authService.register(new UserRegisterDto("user", "user@email.com", "userPassword"));
+
+        authService.register(new UserRegisterDto("author", "author@email.com", "authorPassword"));
+        User author = userRepo.findByEmail("author@email.com").orElseThrow(() -> new EntityNotFoundException());
+        author.changeRole(authorRole);
+        userRepo.save(author);
+
+        authService.register(new UserRegisterDto("admin", "admin@email.com", "adminPassword"));
+        User admin = userRepo.findByEmail("admin@email.com").orElseThrow(() -> new EntityNotFoundException());
+        admin.changeRole(adminRole);
+        userRepo.save(admin);
+    }
+}
