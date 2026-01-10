@@ -1,18 +1,18 @@
 package com.rebellion.travelblogplatform.mapper;
 
-
 import com.rebellion.travelblogplatform.dto.Blog.BlogRequestDto;
 import com.rebellion.travelblogplatform.dto.Blog.BlogResponseDto;
 import com.rebellion.travelblogplatform.entity.Blog;
+import com.rebellion.travelblogplatform.entity.Category;
+import com.rebellion.travelblogplatform.entity.User;
 
 public class BlogMapper {
+
     public static BlogResponseDto toResponse(Blog blog){
-        // TODO Implement Blog Mapper
-        return new BlogResponseDto(null, null, null, null, null, null, null, null, null);
+        return new BlogResponseDto(blog.getId(), blog.getTitle(), blog.getContent(), blog.getImageUrl(), blog.getVideoUrl(), blog.getStatus().name(), blog.getAuthor().getUsername(), blog.getCategory().getName(), blog.getUpdatedAt());
     }
 
-    public static Blog toEntity(BlogRequestDto blogRequestDto){
-        // TODO Implement Blog Mapper
-        return new Blog(null, null, null, null);
+    public static Blog toEntity(BlogRequestDto blogRequestDto, User author, Category category){
+        return new Blog(blogRequestDto.getTitle(), blogRequestDto.getContent(), author, category);
     }
 }

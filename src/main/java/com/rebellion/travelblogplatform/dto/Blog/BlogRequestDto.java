@@ -18,7 +18,7 @@ public class BlogRequestDto {
     private String videoUrl; // optional field
     
     @NotNull
-    private Long categoryId;
+    private String categoryName;
 
     public BlogRequestDto() {
         // FOR JACKSON
@@ -40,8 +40,8 @@ public class BlogRequestDto {
         return videoUrl;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
     // FOR JACKSON
@@ -61,9 +61,7 @@ public class BlogRequestDto {
         this.videoUrl = videoUrl;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(String categoryName) {
+        this.categoryName = categoryName;
     }
-
-    
 }
