@@ -10,6 +10,7 @@ import com.rebellion.travelblogplatform.dto.Blog.BlogResponseDto;
 import com.rebellion.travelblogplatform.entity.Blog;
 import com.rebellion.travelblogplatform.entity.Category;
 import com.rebellion.travelblogplatform.entity.User;
+import com.rebellion.travelblogplatform.enums.Status;
 import com.rebellion.travelblogplatform.exception.NotAuthorizedException;
 import com.rebellion.travelblogplatform.exception.NotLoggedInException;
 import com.rebellion.travelblogplatform.mapper.BlogMapper;
@@ -80,5 +81,18 @@ public class BlogServiceImpl implements BlogService {
                 throw new NotAuthorizedException("Only author can update blog");
             blogRepo.delete(blog);
         }
+    }
+
+    @Override
+    public BlogResponseDto publishBlog(Long id) {
+        userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
+        Blog blog = null;
+        if (id != null) {
+            blog = blogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
+            if (!blog.getAuthor().getEmail().equals(SecurityUtil.getCurrentUserEmail()))
+                throw new NotAuthorizedException("Only author can update blog");
+            blog.changeStatus(Status.PUBLISHED);
+        }
+        return BlogMapper.toResponse(blog);
     }
 }

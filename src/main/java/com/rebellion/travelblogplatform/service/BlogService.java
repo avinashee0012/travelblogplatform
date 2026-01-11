@@ -11,4 +11,5 @@ public interface BlogService {
     BlogResponseDto getBlogBySlug(String slug);
     BlogResponseDto updateBlog(Long id, BlogRequestDto blogRequestDto);
     void deleteBlog(Long id);
+    BlogResponseDto publishBlog(Long id);
 }

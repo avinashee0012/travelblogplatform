@@ -49,6 +49,11 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED).body(blogService.updateBlog(id, blogRequestDto));
     }
 
+    @PutMapping("/{id}/publish")
+    public ResponseEntity<BlogResponseDto> publishBlog(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(blogService.publishBlog(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBlog(@PathVariable Long id){
         blogService.deleteBlog(id);
