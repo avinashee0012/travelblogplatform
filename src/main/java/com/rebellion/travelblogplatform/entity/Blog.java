@@ -49,9 +49,11 @@ public class Blog extends Auditor{
         // FOR JPA
     }
 
-    public Blog(String title, String content, User author, Category category) {
+    public Blog(String title, String content, String imageUrl, String videoUrl, User author, Category category) {
         this.title = title.trim();
         this.content = content;
+        this.imageUrl = imageUrl;
+        this.videoUrl = videoUrl;
         this.author = author;
         this.category = category;
         this.slug = convertTitleToSlug(title);
@@ -105,7 +107,7 @@ public class Blog extends Auditor{
 
     // HELPER METHODS
     private String convertTitleToSlug(String title){
-        String[] words = title.trim().split(" ");
+        String[] words = title.trim().toLowerCase().split(" ");
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < words.length; i++) {
             sb.append(words[i]);

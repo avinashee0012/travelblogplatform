@@ -61,7 +61,7 @@ public class BlogRequestDto {
         this.videoUrl = videoUrl;
     }
 
-    public void setCategoryId(String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 }

@@ -13,6 +13,6 @@ public class BlogMapper {
     }
 
     public static Blog toEntity(BlogRequestDto blogRequestDto, User author, Category category){
-        return new Blog(blogRequestDto.getTitle(), blogRequestDto.getContent(), author, category);
+        return new Blog(blogRequestDto.getTitle(), blogRequestDto.getContent(), blogRequestDto.getImageUrl(), blogRequestDto.getVideoUrl(), author, category);
     }
 }

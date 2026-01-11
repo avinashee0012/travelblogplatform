@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
+import com.rebellion.travelblogplatform.entity.Category;
 import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
+import com.rebellion.travelblogplatform.repo.CategoryRepo;
 import com.rebellion.travelblogplatform.repo.RoleRepo;
 import com.rebellion.travelblogplatform.repo.UserRepo;
 import com.rebellion.travelblogplatform.service.AuthService;
@@ -19,17 +21,17 @@ public class DataInitializer {
 
     @Bean
     CommandLineRunner initRoles(AuthService authService, UserRepo userRepo, RoleRepo roleRepo,
-            PasswordEncoder passwordEncoder) {
+            CategoryRepo categoryRepo, PasswordEncoder passwordEncoder) {
         return args -> {
             if(!userRepo.existsByEmail("user@email.com"))
-                setup(authService, userRepo, roleRepo, passwordEncoder);
+                setup(authService, userRepo, roleRepo, categoryRepo, passwordEncoder);
             else 
                 System.out.println("Skipping setup via commandline runner");
         };
     }
 
     private static void setup(AuthService authService, UserRepo userRepo, RoleRepo roleRepo,
-            PasswordEncoder passwordEncoder) {
+            CategoryRepo categoryRepo, PasswordEncoder passwordEncoder) {
         Role userRole = new Role("USER", "Default role with least authority");
         Role authorRole = new Role("AUTHOR", "Role assigned to an author of blog");
         Role adminRole = new Role("ADMIN", "Priviledged role for system control");
@@ -49,5 +51,13 @@ public class DataInitializer {
         User admin = userRepo.findByEmail("admin@email.com").orElseThrow(() -> new EntityNotFoundException());
         admin.changeRole(adminRole);
         userRepo.save(admin);
+
+        Category beach = new Category("Beach");
+        Category mountain = new Category("Mountain");
+        Category nature = new Category("Nature");
+
+        categoryRepo.save(beach);
+        categoryRepo.save(mountain);
+        categoryRepo.save(nature);
     }
 }

@@ -35,7 +35,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogResponseDto createBlog(BlogRequestDto blogRequestDto) {
         User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail())
                 .orElseThrow(() -> new NotLoggedInException());
-        Category category = categoryRepo.findByName(blogRequestDto.getCategoryName())
+        Category category = categoryRepo.findByName(blogRequestDto.getCategoryName().toLowerCase())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category name"));
         Blog blog = BlogMapper.toEntity(blogRequestDto, user, category);
         if (blog != null)
@@ -58,7 +58,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogResponseDto updateBlog(Long id, BlogRequestDto blogRequestDto) {
         User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail())
                 .orElseThrow(() -> new NotLoggedInException());
-        Category category = categoryRepo.findByName(blogRequestDto.getCategoryName())
+        Category category = categoryRepo.findByName(blogRequestDto.getCategoryName().toLowerCase())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category name"));
         Blog blog = null, updatedBlog = null;
         if (id != null) {
