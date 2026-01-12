@@ -1,7 +1,9 @@
 package com.rebellion.travelblogplatform.service.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.rebellion.travelblogplatform.config.util.SecurityUtil;
@@ -45,8 +47,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogResponseDto> getAllBlogs() {
-        return blogRepo.findAll().stream().map(BlogMapper::toResponse).toList();
+    public Page<BlogResponseDto> getAllBlogs(int page, int size, String sortBy, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                                ? Sort.by(sortBy).descending()
+                                : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return blogRepo.findAll(pageable).map(BlogMapper::toResponse);
     }
 
     @Override

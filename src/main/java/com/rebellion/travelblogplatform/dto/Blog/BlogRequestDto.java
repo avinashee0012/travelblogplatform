@@ -14,7 +14,7 @@ public class BlogRequestDto {
     @Size(min = 100, max = 2000)
     private String content;
 
-    private String imageUrl; // optional field
+    private String imageUrl; // optional field --> This will later be implemented as file-upload
     private String videoUrl; // optional field
     
     @NotNull

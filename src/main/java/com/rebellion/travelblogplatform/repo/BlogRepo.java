@@ -10,4 +10,5 @@ import com.rebellion.travelblogplatform.entity.Blog;
 @Repository
 public interface BlogRepo extends JpaRepository<Blog, Long>{
     Optional<Blog> findBySlug(String slug);
+    
 }
