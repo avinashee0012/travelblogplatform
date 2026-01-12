@@ -91,11 +91,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogResponseDto publishBlog(Long id) {
-        userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
+        User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
         Blog blog = null;
         if (id != null) {
             blog = blogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
-            if (!blog.getAuthor().getEmail().equals(SecurityUtil.getCurrentUserEmail()))
+            if (!blog.getAuthor().getEmail().equals(user.getUsername()))
                 throw new NotAuthorizedException("Only author can update blog");
             blog.changeStatus(Status.PUBLISHED);
         }
