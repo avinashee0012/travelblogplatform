@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserRegisterDto;
 import com.rebellion.travelblogplatform.entity.Category;
 import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;

@@ -1,8 +1,8 @@
 package com.rebellion.travelblogplatform.mapper;
 
 
-import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
-import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserRegisterDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserResponseDto;
 import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
 

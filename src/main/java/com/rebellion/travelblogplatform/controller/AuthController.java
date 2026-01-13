@@ -2,10 +2,10 @@ package com.rebellion.travelblogplatform.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rebellion.travelblogplatform.dto.User.LoginResponseDto;
-import com.rebellion.travelblogplatform.dto.User.UserLoginDto;
-import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
-import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
+import com.rebellion.travelblogplatform.dto.Auth.LoginResponseDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserLoginDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserRegisterDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserResponseDto;
 import com.rebellion.travelblogplatform.service.AuthService;
 
 import jakarta.validation.Valid;

@@ -4,10 +4,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rebellion.travelblogplatform.config.jwt.JwtUtil;
-import com.rebellion.travelblogplatform.dto.User.LoginResponseDto;
-import com.rebellion.travelblogplatform.dto.User.UserLoginDto;
-import com.rebellion.travelblogplatform.dto.User.UserRegisterDto;
-import com.rebellion.travelblogplatform.dto.User.UserResponseDto;
+import com.rebellion.travelblogplatform.dto.Auth.LoginResponseDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserLoginDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserRegisterDto;
+import com.rebellion.travelblogplatform.dto.Auth.UserResponseDto;
 import com.rebellion.travelblogplatform.entity.Role;
 import com.rebellion.travelblogplatform.entity.User;
 import com.rebellion.travelblogplatform.exception.DuplicateEntryException;
