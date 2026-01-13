@@ -1,5 +1,7 @@
 package com.rebellion.travelblogplatform.service.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +25,6 @@ import com.rebellion.travelblogplatform.service.BlogService;
 
 @Service
 public class BlogServiceImpl implements BlogService {
-
     private final UserRepo userRepo;
     private final BlogRepo blogRepo;
     private final CategoryRepo categoryRepo;
@@ -92,13 +93,20 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogResponseDto publishBlog(Long id) {
         User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
-        Blog blog = null;
+        Blog blog = null, savedBlog = null;
         if (id != null) {
             blog = blogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
-            if (!blog.getAuthor().getEmail().equals(user.getUsername()))
+            if (!blog.getAuthor().getEmail().equals(user.getEmail()))
                 throw new NotAuthorizedException("Only author can update blog");
             blog.changeStatus(Status.PUBLISHED);
         }
-        return BlogMapper.toResponse(blog);
+        if(blog != null) savedBlog = blogRepo.save(blog);
+        return BlogMapper.toResponse(savedBlog);
+    }
+
+    @Override
+    public List<BlogResponseDto> getTenLastUpdatedBlogs(String validUsername) {
+        List<Blog> blogs = blogRepo.findTop10ByAuthorUsernameAndStatusOrderByUpdatedAtDesc(validUsername, Status.PUBLISHED);
+        return blogs.stream().map(BlogMapper::toResponse).toList();
     }
 }

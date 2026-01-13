@@ -6,17 +6,16 @@ import com.rebellion.travelblogplatform.dto.Blog.BlogResponseDto;
 
 public class AuthorProfileResponseDto {
     private String authorName;
-    private List<BlogResponseDto> featuredFiveBlogs;
+    // Needs object modification, will implement featuredFiveBlogs later
+    // private List<BlogResponseDto> featuredFiveBlogs; 
     private List<BlogResponseDto> lastTenUpdatedBlogs;
 
     public AuthorProfileResponseDto() {
         // FOR JACKSON
     }
 
-    public AuthorProfileResponseDto(String authorName, List<BlogResponseDto> featuredFiveBlogs,
-            List<BlogResponseDto> lastTenUpdatedBlogs) {
+    public AuthorProfileResponseDto(String authorName, List<BlogResponseDto> lastTenUpdatedBlogs) {
         this.authorName = authorName;
-        this.featuredFiveBlogs = featuredFiveBlogs;
         this.lastTenUpdatedBlogs = lastTenUpdatedBlogs;
     }
 
@@ -24,11 +23,7 @@ public class AuthorProfileResponseDto {
         return authorName;
     }
 
-    public List<BlogResponseDto> getFeaturedFiveBlogs() {
-        return List.copyOf(featuredFiveBlogs);
-    }
-
     public List<BlogResponseDto> getLastTenUpdatedBlogs() {
-        return List.copyOf(lastTenUpdatedBlogs);
+        return lastTenUpdatedBlogs;
     }
 }
