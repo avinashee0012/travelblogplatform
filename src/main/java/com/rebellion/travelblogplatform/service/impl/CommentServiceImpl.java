@@ -6,27 +6,32 @@ import org.springframework.stereotype.Service;
 import com.rebellion.travelblogplatform.dto.Comment.CommentRequestDto;
 import com.rebellion.travelblogplatform.dto.Comment.CommentResponseDto;
 import com.rebellion.travelblogplatform.entity.Comment;
+import com.rebellion.travelblogplatform.repo.CommentRepo;
 import com.rebellion.travelblogplatform.service.CommentService;
 
 @Service
 public class CommentServiceImpl implements CommentService{
+    private final CommentRepo commentRepo;
 
-    @Override
-    public Page<Comment> getAllBlogComments(Long blogId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllBlogComments'");
+    public CommentServiceImpl(CommentRepo commentRepo) {
+        this.commentRepo = commentRepo;
     }
 
     @Override
     public CommentResponseDto createComment(Long blogId, CommentRequestDto commentRequestDto) {
-        // TODO Auto-generated method stub
+        // TODO createComment(Long blogId, CommentRequestDto commentRequestDto)
         throw new UnsupportedOperationException("Unimplemented method 'createComment'");
     }
 
     @Override
+    public Page<Comment> getAllBlogComments(Long blogId) {
+        // TODO getAllBlogComments(Long blogId)
+        throw new UnsupportedOperationException("Unimplemented method 'getAllBlogComments'");
+    }
+
+    @Override
     public void deleteComment(Long commentId) {
-        // TODO Auto-generated method stub
+        // TODO deleteComment(Long commentId)
         throw new UnsupportedOperationException("Unimplemented method 'deleteComment'");
     }
-    
 }
