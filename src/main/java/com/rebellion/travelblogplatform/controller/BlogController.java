@@ -4,7 +4,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rebellion.travelblogplatform.dto.Blog.BlogRequestDto;
 import com.rebellion.travelblogplatform.dto.Blog.BlogResponseDto;
+import com.rebellion.travelblogplatform.dto.Comment.CommentRequestDto;
+import com.rebellion.travelblogplatform.dto.Comment.CommentResponseDto;
+import com.rebellion.travelblogplatform.entity.Comment;
 import com.rebellion.travelblogplatform.service.BlogService;
+import com.rebellion.travelblogplatform.service.CommentService;
 
 import jakarta.validation.Valid;
 
@@ -28,9 +32,11 @@ public class BlogController {
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("createdAt", "title", "updatedAt");
 
     private final BlogService blogService;
+    private final CommentService commentService;
 
-    public BlogController(BlogService blogService) {
+    public BlogController(BlogService blogService, CommentService commentService) {
         this.blogService = blogService;
+        this.commentService = commentService;
     }
 
     @PostMapping
@@ -71,6 +77,26 @@ public class BlogController {
         blogService.deleteBlog(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    // ######### COMMENT ENDPOINTS
+
+    @PostMapping("/{blogId}/comments")
+    public ResponseEntity<CommentResponseDto> postComment(@PathVariable Long blogId, @RequestBody CommentRequestDto commentRequestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createComment(blogId, commentRequestDto));
+    }
+
+    @GetMapping("/{blogId}/comments")
+    public ResponseEntity<Page<Comment>> getBlogComments(@PathVariable Long blogId){
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllBlogComments(blogId));
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long commentId){
+        commentService.deleteComment(commentId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    // ######### TEST ENDPOINT
 
     @GetMapping("/test")
     public String testBlogController() {
