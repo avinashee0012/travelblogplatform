@@ -6,12 +6,12 @@ import com.rebellion.travelblogplatform.dto.Blog.BlogRequestDto;
 import com.rebellion.travelblogplatform.dto.Blog.BlogResponseDto;
 import com.rebellion.travelblogplatform.dto.Comment.CommentRequestDto;
 import com.rebellion.travelblogplatform.dto.Comment.CommentResponseDto;
-import com.rebellion.travelblogplatform.entity.Comment;
 import com.rebellion.travelblogplatform.service.BlogService;
 import com.rebellion.travelblogplatform.service.CommentService;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -86,7 +86,7 @@ public class BlogController {
     }
 
     @GetMapping("/{blogId}/comments")
-    public ResponseEntity<Page<Comment>> getBlogComments(@PathVariable Long blogId){
+    public ResponseEntity<List<CommentResponseDto>> getBlogComments(@PathVariable Long blogId){
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllBlogComments(blogId));
     }
 

@@ -1,6 +1,7 @@
 package com.rebellion.travelblogplatform.service.impl;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.rebellion.travelblogplatform.config.util.SecurityUtil;
@@ -9,6 +10,7 @@ import com.rebellion.travelblogplatform.dto.Comment.CommentResponseDto;
 import com.rebellion.travelblogplatform.entity.Blog;
 import com.rebellion.travelblogplatform.entity.Comment;
 import com.rebellion.travelblogplatform.entity.User;
+import com.rebellion.travelblogplatform.exception.NotAuthorizedException;
 import com.rebellion.travelblogplatform.exception.NotLoggedInException;
 import com.rebellion.travelblogplatform.mapper.CommentMapper;
 import com.rebellion.travelblogplatform.repo.BlogRepo;
@@ -41,14 +43,22 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public Page<Comment> getAllBlogComments(Long blogId) {
-        // TODO getAllBlogComments(Long blogId)
-        throw new UnsupportedOperationException("Unimplemented method 'getAllBlogComments'");
+    public List<CommentResponseDto> getAllBlogComments(Long blogId) {
+        if(blogId != null)
+            blogRepo.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
+        List<Comment> comments = commentRepo.findByBlogIdOrderByCreatedAtDesc(blogId);
+        return comments.stream().map(CommentMapper::toResponse).toList();
     }
 
     @Override
     public void deleteComment(Long commentId) {
-        // TODO deleteComment(Long commentId)
-        throw new UnsupportedOperationException("Unimplemented method 'deleteComment'");
+        User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
+        Comment comment = null;
+        if(commentId != null) 
+            comment = commentRepo.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Invalid comment id"));
+        if(comment != null && comment.getCommentor().equals(user))
+            commentRepo.delete(comment);
+        else 
+            throw new NotAuthorizedException("Only commentor can delete comment");
     }
 }
