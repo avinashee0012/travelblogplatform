@@ -1,6 +1,7 @@
 package com.rebellion.travelblogplatform.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class AdminController {
 
     // ---------- USER MANAGEMENT ----------
     @PatchMapping("/users/{userId}/make-author")
+    @PreAuthorize("")
     public ResponseEntity<Void> makeUserAuthor(@PathVariable Long userId) {
         adminService.makeUserAuthor(userId);
         return ResponseEntity.noContent().build();
