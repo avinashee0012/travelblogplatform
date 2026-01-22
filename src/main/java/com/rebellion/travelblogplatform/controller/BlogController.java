@@ -17,6 +17,7 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class BlogController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('AUTHOR')")
     public ResponseEntity<BlogResponseDto> createBlog(@Valid @RequestBody BlogRequestDto blogRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(blogService.createBlog(blogRequestDto));
     }
@@ -61,17 +63,20 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.OK).body(blogService.getBlogBySlug(slug));
     }
 
+    @PreAuthorize("hasRole('AUTHOR')")
     @PutMapping("/{id}")
     public ResponseEntity<BlogResponseDto> updateBlog(@PathVariable Long id,
             @Valid @RequestBody BlogRequestDto blogRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(blogService.updateBlog(id, blogRequestDto));
     }
 
+    @PreAuthorize("hasRole('AUTHOR')")
     @PutMapping("/{id}/publish")
     public ResponseEntity<BlogResponseDto> publishBlog(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(blogService.publishBlog(id));
     }
 
+    @PreAuthorize("hasRole('AUTHOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBlog(@PathVariable Long id) {
         blogService.deleteBlog(id);
@@ -94,12 +99,5 @@ public class BlogController {
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId){
         commentService.deleteComment(commentId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    // ######### TEST ENDPOINT
-
-    @GetMapping("/test")
-    public String testBlogController() {
-        return "BlogController: OK";
     }
 }

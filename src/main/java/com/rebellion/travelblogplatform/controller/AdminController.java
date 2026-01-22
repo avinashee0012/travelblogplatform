@@ -20,13 +20,14 @@ public class AdminController {
     }
 
     // ---------- USER MANAGEMENT ----------
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/users/{userId}/make-author")
-    @PreAuthorize("")
     public ResponseEntity<Void> makeUserAuthor(@PathVariable Long userId) {
         adminService.makeUserAuthor(userId);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/users/{userId}/make-admin")
     public ResponseEntity<Void> makeUserAdmin(@PathVariable Long userId) {
         adminService.makeUserAdmin(userId);
@@ -34,13 +35,14 @@ public class AdminController {
     }
 
     // ---------- BLOG MANAGEMENT ----------
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/blogs/{blogId}/status/need-review")
     public ResponseEntity<Void> markBlogNeedReview(@PathVariable Long blogId) {
         adminService.updateBlogStatusToNeedReview(blogId);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/blogs/{blogId}/status/removed")
     public ResponseEntity<Void> removeBlog(@PathVariable Long blogId) {
         adminService.updateBlogStatusToRemoved(blogId);
@@ -49,6 +51,7 @@ public class AdminController {
 
     // ---------- COMMENT MANAGEMENT ----------
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/comments/{commentId}/hide")
     public ResponseEntity<Void> hideComment(@PathVariable Long commentId) {
         adminService.hideComment(commentId);
