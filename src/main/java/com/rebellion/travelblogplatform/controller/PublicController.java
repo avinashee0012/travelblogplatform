@@ -46,6 +46,7 @@ public class PublicController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<BlogResponseDto> getBlog(@PathVariable String slug) {
+        if(slug == null || slug.isBlank()) throw new IllegalArgumentException("Invalid URL: missing or empty slug");
         return ResponseEntity.status(HttpStatus.OK).body(blogService.getBlogBySlug(slug));
     }
 
