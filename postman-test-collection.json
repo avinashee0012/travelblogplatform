@@ -1,0 +1,217 @@
+{
+  "info": {
+    "name": "Travel Blog Platform API",
+    "description": "Postman collection based on Swagger OpenAPI for Travel Blog Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "accessToken", "value": "" },
+    { "key": "blogId", "value": "" },
+    { "key": "commentId", "value": "" },
+    { "key": "userId", "value": "" },
+    { "key": "slug", "value": "" }
+  ],
+  "item": [
+
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"avinash\",\n  \"email\": \"avinash@email.com\",\n  \"password\": \"Password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"avinash@email.com\",\n  \"password\": \"Password123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Public Blogs",
+      "item": [
+        {
+          "name": "Get All Blogs (Paginated)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/public?page=0&size=10&sortBy=createdAt&sortDirection=desc"
+          }
+        },
+        {
+          "name": "Get Blog by Slug",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/public/{{slug}}"
+          }
+        },
+        {
+          "name": "Get Blog Comments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/public/{{blogId}}/comments"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Blogs (AUTHOR)",
+      "item": [
+        {
+          "name": "Create Blog",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/blogs",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Exploring the Himalayas\",\n  \"content\": \"This blog covers a detailed travel experience across the Himalayan ranges with tips and routes.\",\n  \"imageUrl\": \"\",\n  \"videoUrl\": \"\",\n  \"categoryName\": \"Mountains\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Blog",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/blogs/{{blogId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Himalayan Journey\",\n  \"content\": \"Updated content with refined routes and safety tips.\",\n  \"categoryName\": \"Mountains\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Publish Blog",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/blogs/{{blogId}}/publish"
+          }
+        },
+        {
+          "name": "Delete Blog",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/blogs/{{blogId}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/blogs/{{blogId}}/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is a very informative blog!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/blogs/comments/{{commentId}}"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Make User AUTHOR",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/admins/users/{{userId}}/make-author"
+          }
+        },
+        {
+          "name": "Make User ADMIN",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/admins/users/{{userId}}/make-admin"
+          }
+        },
+        {
+          "name": "Mark Blog NEED_REVIEW",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/admins/blogs/{{blogId}}/status/need-review"
+          }
+        },
+        {
+          "name": "Remove Blog",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/admins/blogs/{{blogId}}/status/removed"
+          }
+        },
+        {
+          "name": "Hide Comment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": "{{baseUrl}}/api/admins/comments/{{commentId}}/hide"
+          }
+        }
+      ]
+    }
+  ]
+}
