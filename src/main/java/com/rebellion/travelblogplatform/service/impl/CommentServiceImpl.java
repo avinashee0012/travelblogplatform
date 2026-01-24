@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService{
         User user = userRepo.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new NotLoggedInException());
         Blog blog = null;
         if(blogId != null)
-            blogRepo.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
+            blog = blogRepo.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Invalid blog id"));
         Comment comment = CommentMapper.toEntity(commentRequestDto, blog, user);
         if(comment != null) 
             commentRepo.save(comment);
