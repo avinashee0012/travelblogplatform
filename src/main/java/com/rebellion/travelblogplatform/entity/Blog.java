@@ -84,6 +84,10 @@ public class Blog extends Auditor{
         return status;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
     public User getAuthor() {
         return author;
     }

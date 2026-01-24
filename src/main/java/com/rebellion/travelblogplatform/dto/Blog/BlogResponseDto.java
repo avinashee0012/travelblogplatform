@@ -9,19 +9,21 @@ public class BlogResponseDto { // response DTOs should be immutable
     private final String imageUrl;
     private final String videoUrl;
     private final String status;
+    private final String slug;
 
     private final String authorUsername;
     private final String categoryName;
     private final LocalDateTime updatedAt;
     
     public BlogResponseDto(Long id, String title, String content, String imageUrl, String videoUrl, String status,
-            String authorUsername, String categoryName, LocalDateTime updatedAt) {
+            String slug, String authorUsername, String categoryName, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.status = status;
+        this.slug = slug;
         this.authorUsername = authorUsername;
         this.categoryName = categoryName;
         this.updatedAt = updatedAt;
@@ -49,6 +51,10 @@ public class BlogResponseDto { // response DTOs should be immutable
 
     public String getStatus() {
         return status;
+    }
+
+    public String getSlug(){
+        return slug;
     }
 
     public String getAuthorUsername() {

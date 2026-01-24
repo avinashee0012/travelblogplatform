@@ -9,7 +9,7 @@ import com.rebellion.travelblogplatform.entity.User;
 public class BlogMapper {
 
     public static BlogResponseDto toResponse(Blog blog){
-        return new BlogResponseDto(blog.getId(), blog.getTitle(), blog.getContent(), blog.getImageUrl(), blog.getVideoUrl(), blog.getStatus().name(), blog.getAuthor().getUsername(), blog.getCategory().getName(), blog.getUpdatedAt());
+        return new BlogResponseDto(blog.getId(), blog.getTitle(), blog.getContent(), blog.getImageUrl(), blog.getVideoUrl(), blog.getStatus().name(), blog.getSlug(), blog.getAuthor().getUsername(), blog.getCategory().getName(), blog.getUpdatedAt());
     }
 
     public static Blog toEntity(BlogRequestDto blogRequestDto, User author, Category category){
