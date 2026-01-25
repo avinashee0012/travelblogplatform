@@ -32,7 +32,7 @@ public class PublicController {
 
     // ######### BLOG ENDPOINTS
 
-    @GetMapping
+    @GetMapping("/blogs")
     public ResponseEntity<Page<BlogResponseDto>> getAllBlog(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -44,14 +44,14 @@ public class PublicController {
         return ResponseEntity.status(HttpStatus.OK).body(blogService.getAllBlogs(page, size, sortBy, sortDirection));
     }
 
-    @GetMapping("/{slug}")
+    @GetMapping("/blogs/{slug}")
     public ResponseEntity<BlogResponseDto> getBlog(@PathVariable String slug) {
         if (slug == null || slug.isBlank())
             throw new IllegalArgumentException("Invalid URL: missing or empty slug");
         return ResponseEntity.status(HttpStatus.OK).body(blogService.getBlogBySlug(slug));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/blogs/search")
     public Page<BlogResponseDto> searchBlogs(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
@@ -68,7 +68,7 @@ public class PublicController {
 
     // ######### COMMENT ENDPOINTS
 
-    @GetMapping("/{blogId}/comments")
+    @GetMapping("/blogs/{blogId}/comments")
     public ResponseEntity<List<CommentResponseDto>> getBlogComments(@PathVariable Long blogId) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllBlogComments(blogId));
     }
