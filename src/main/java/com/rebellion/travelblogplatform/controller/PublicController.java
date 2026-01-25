@@ -46,15 +46,30 @@ public class PublicController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<BlogResponseDto> getBlog(@PathVariable String slug) {
-        if(slug == null || slug.isBlank()) throw new IllegalArgumentException("Invalid URL: missing or empty slug");
+        if (slug == null || slug.isBlank())
+            throw new IllegalArgumentException("Invalid URL: missing or empty slug");
         return ResponseEntity.status(HttpStatus.OK).body(blogService.getBlogBySlug(slug));
+    }
+
+    @GetMapping("/search")
+    public Page<BlogResponseDto> searchBlogs(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+        if (keyword == null || keyword.trim().isEmpty())
+            throw new IllegalArgumentException("Search keyword cannot be empty");
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            throw new IllegalArgumentException("Invalid sort field");
+        }
+        return blogService.searchBlogsByTitle(keyword, page, size, sortBy, direction);
     }
 
     // ######### COMMENT ENDPOINTS
 
     @GetMapping("/{blogId}/comments")
-    public ResponseEntity<List<CommentResponseDto>> getBlogComments(@PathVariable Long blogId){
+    public ResponseEntity<List<CommentResponseDto>> getBlogComments(@PathVariable Long blogId) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllBlogComments(blogId));
     }
 }
-
