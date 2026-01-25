@@ -109,4 +109,14 @@ public class BlogServiceImpl implements BlogService {
         List<Blog> blogs = blogRepo.findTop10ByAuthorUsernameAndStatusOrderByUpdatedAtDesc(validUsername, Status.PUBLISHED);
         return blogs.stream().map(BlogMapper::toResponse).toList();
     }
+
+    @Override
+    public Page<BlogResponseDto> searchBlogsByTitle(String keyword, int page, int size, String sortBy,
+            String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                        ? Sort.by(sortBy).descending()
+                        : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return blogRepo.findByTitleContainingIgnoreCase(keyword, pageable).map(BlogMapper::toResponse);
+    }
 }

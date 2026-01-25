@@ -16,4 +16,5 @@ public interface BlogService {
     BlogResponseDto publishBlog(Long id);
     // List<BlogResponseDto> getFiveFeaturedBlogs(String validUsername);
     List<BlogResponseDto> getTenLastUpdatedBlogs(String validUsername);
+    Page<BlogResponseDto> searchBlogsByTitle(String keyword, int page, int size, String sortBy, String sortDirection);
 }
