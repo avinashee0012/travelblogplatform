@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public AuthorProfileResponseDto getAuthorProfile(String username) {
         User user = userRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(username));
-        if(user.getRole().getName().equals("AUTHOR")){
+        if(!user.getRole().getName().equals("AUTHOR")){
             throw new IllegalArgumentException("Not an author profile");
         }
         List<BlogResponseDto> lastTenBlogs = blogService.getTenLastUpdatedBlogs(user.getUsername());
