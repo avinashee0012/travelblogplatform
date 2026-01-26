@@ -13,7 +13,8 @@ import com.rebellion.travelblogplatform.enums.Status;
 
 @Repository
 public interface BlogRepo extends JpaRepository<Blog, Long>{
-    Optional<Blog> findBySlug(String slug);
+    Optional<Blog> findBySlugAndStatus(String slug, Status status);
     List<Blog> findTop10ByAuthorUsernameAndStatusOrderByUpdatedAtDesc(String username, Status status);
-    Page<Blog> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Blog> findByTitleContainingIgnoreCaseAndStatus(String keyword, Status status, Pageable pageable);
+    Page<Blog> findByStatus(Status status, Pageable pageable);
 }

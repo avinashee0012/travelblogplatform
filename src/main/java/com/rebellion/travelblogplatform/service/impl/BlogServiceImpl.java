@@ -53,12 +53,12 @@ public class BlogServiceImpl implements BlogService {
                                 ? Sort.by(sortBy).descending()
                                 : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return blogRepo.findAll(pageable).map(BlogMapper::toResponse);
+        return blogRepo.findByStatus(Status.PUBLISHED, pageable).map(BlogMapper::toResponse);
     }
 
     @Override
     public BlogResponseDto getBlogBySlug(String slug) {
-        Blog blog = blogRepo.findBySlug(slug).orElseThrow(() -> new IllegalArgumentException("Invalid url"));
+        Blog blog = blogRepo.findBySlugAndStatus(slug, Status.PUBLISHED).orElseThrow(() -> new IllegalArgumentException("Invalid url"));
         return BlogMapper.toResponse(blog);
     }
 
@@ -117,6 +117,6 @@ public class BlogServiceImpl implements BlogService {
                         ? Sort.by(sortBy).descending()
                         : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return blogRepo.findByTitleContainingIgnoreCase(keyword, pageable).map(BlogMapper::toResponse);
+        return blogRepo.findByTitleContainingIgnoreCaseAndStatus(keyword, Status.PUBLISHED, pageable).map(BlogMapper::toResponse);
     }
 }
