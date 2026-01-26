@@ -1,16 +1,17 @@
 {
   "info": {
-    "name": "Travel Blog Platform API",
-    "description": "Postman collection based on Swagger OpenAPI for Travel Blog Platform",
+    "name": "Travel Blog Platform API (OpenAPI-based)",
+    "description": "Manual testing collection generated from api-docs",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "accessToken", "value": "" },
+    { "key": "token", "value": "" },
     { "key": "blogId", "value": "" },
     { "key": "commentId", "value": "" },
     { "key": "userId", "value": "" },
-    { "key": "slug", "value": "" }
+    { "key": "slug", "value": "" },
+    { "key": "username", "value": "" }
   ],
   "item": [
 
@@ -25,7 +26,7 @@
             "url": "{{baseUrl}}/api/auth/register",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"avinash\",\n  \"email\": \"avinash@email.com\",\n  \"password\": \"Password123\"\n}"
+              "raw": "{\n  \"username\": \"john\",\n  \"email\": \"john@email.com\",\n  \"password\": \"Password123\"\n}"
             }
           }
         },
@@ -37,7 +38,7 @@
             "url": "{{baseUrl}}/api/auth/login",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"avinash@email.com\",\n  \"password\": \"Password123\"\n}"
+              "raw": "{\n  \"email\": \"john@email.com\",\n  \"password\": \"Password123\"\n}"
             }
           }
         }
@@ -48,24 +49,31 @@
       "name": "Public Blogs",
       "item": [
         {
-          "name": "Get All Blogs (Paginated)",
+          "name": "Get All Blogs",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/api/public?page=0&size=10&sortBy=createdAt&sortDirection=desc"
+            "url": "{{baseUrl}}/api/public/blogs?page=0&size=10&sortBy=createdAt&sortDirection=desc"
           }
         },
         {
           "name": "Get Blog by Slug",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/api/public/{{slug}}"
+            "url": "{{baseUrl}}/api/public/blogs/{{slug}}"
+          }
+        },
+        {
+          "name": "Search Blogs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/public/blogs/search?keyword=goa&page=0&size=10"
           }
         },
         {
           "name": "Get Blog Comments",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/api/public/{{blogId}}/comments"
+            "url": "{{baseUrl}}/api/public/blogs/{{blogId}}/comments"
           }
         }
       ]
@@ -79,13 +87,13 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
             "url": "{{baseUrl}}/api/blogs",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Exploring the Himalayas\",\n  \"content\": \"This blog covers a detailed travel experience across the Himalayan ranges with tips and routes.\",\n  \"imageUrl\": \"\",\n  \"videoUrl\": \"\",\n  \"categoryName\": \"Mountains\"\n}"
+              "raw": "{\n  \"title\": \"Exploring Goa Beaches\",\n  \"content\": \"This blog describes beautiful beaches of Goa with travel tips and experiences.\",\n  \"imageUrl\": \"\",\n  \"videoUrl\": \"\",\n  \"categoryName\": \"Beach\"\n}"
             }
           }
         },
@@ -94,13 +102,13 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
             "url": "{{baseUrl}}/api/blogs/{{blogId}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Updated Himalayan Journey\",\n  \"content\": \"Updated content with refined routes and safety tips.\",\n  \"categoryName\": \"Mountains\"\n}"
+              "raw": "{\n  \"title\": \"Updated Goa Beaches\",\n  \"content\": \"Updated content with better insights.\",\n  \"categoryName\": \"Beach\"\n}"
             }
           }
         },
@@ -109,7 +117,7 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/blogs/{{blogId}}/publish"
           }
@@ -119,7 +127,7 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/blogs/{{blogId}}"
           }
@@ -135,13 +143,13 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
             "url": "{{baseUrl}}/api/blogs/{{blogId}}/comments",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"content\": \"This is a very informative blog!\"\n}"
+              "raw": "{\n  \"content\": \"Very helpful travel blog!\"\n}"
             }
           }
         },
@@ -150,7 +158,7 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/blogs/comments/{{commentId}}"
           }
@@ -166,7 +174,7 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/admins/users/{{userId}}/make-author"
           }
@@ -176,7 +184,7 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/admins/users/{{userId}}/make-admin"
           }
@@ -186,7 +194,7 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/admins/blogs/{{blogId}}/status/need-review"
           }
@@ -196,7 +204,7 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/admins/blogs/{{blogId}}/status/removed"
           }
@@ -206,12 +214,26 @@
           "request": {
             "method": "PATCH",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/admins/comments/{{commentId}}/hide"
           }
         }
       ]
+    },
+
+    {
+      "name": "User Profile",
+      "item": [
+        {
+          "name": "Get Author Profile",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/{{username}}"
+          }
+        }
+      ]
     }
+
   ]
 }
