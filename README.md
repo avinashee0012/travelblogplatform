@@ -4,33 +4,25 @@ A Spring Boot–based backend application for a **Travel Blog Platform**, built 
 
 The platform supports **JWT-based authentication**, **role-based access control (RBAC)**, clean **RESTful APIs**, and **admin moderation workflows**. Public users can browse blogs and comments, while authenticated users can contribute content based on their roles. The system is fully documented using **Swagger (OpenAPI)**.
 
-> ⚠️ **Note**
-> This project focuses on backend design, security, and API architecture.
-> Automated tests (JUnit / Mockito) and Postman collections will be added later.
-> TDD was **not followed** during the initial implementation.
-
 ---
 
 ## Tech Stack
 
 * Java 17
 * Spring Boot 3
-* Spring MVC
+* Spring Web
 * Spring Data JPA
 * Spring Security
 * JWT (stateless authentication)
 * MySQL
 * Maven
 * Swagger / OpenAPI (springdoc)
-* Logback
-
-**Intentionally not used:** Lombok (for learning clarity)
 
 ---
 
 ## Architecture Overview
 
-* Layered MVC architecture
+* Layered architecture (Controller --> Service --> Repository)
 * Stateless authentication using JWT
 * Role-based authorization (RBAC)
 * DTO-based request/response mapping
@@ -46,11 +38,6 @@ The platform supports **JWT-based authentication**, **role-based access control 
 | USER   | Read blogs, add comments                           |
 | AUTHOR | Create, edit, delete own blogs, add comments       |
 | ADMIN  | Moderate and manage all blogs, users, and comments |
-
-RBAC is enforced using:
-
-* Path-based security (Spring Security)
-* Method-level security (`@PreAuthorize`)
 
 ---
 
@@ -72,12 +59,6 @@ RBAC is enforced using:
 | GET    | `/api/public`                   | Get paginated list of published blogs |
 | GET    | `/api/public/{slug}`            | Get a single blog by slug             |
 | GET    | `/api/public/{blogId}/comments` | Get comments for a blog               |
-
-These endpoints are intentionally public for:
-
-* Read-only access
-* SEO friendliness
-* Better user experience
 
 ---
 
@@ -134,7 +115,6 @@ Only **PUBLISHED** blogs appear in public APIs.
   * Is written by **one user**
 * No nested/threaded comments (intentional design choice)
 * Admins can hide inappropriate comments
-* Comment visibility is enforced at the service layer
 
 ---
 
