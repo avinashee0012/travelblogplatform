@@ -144,31 +144,3 @@ Swagger UI is enabled and publicly accessible.
 
 * **Swagger UI:**
   `/public/swagger-ui/index.html`
-
-* **OpenAPI JSON:**
-  `/public/api-docs`
-
-Swagger is the **source of truth** for API contracts in this project.
-
----
-
-## Testing Status
-
-* ❌ JUnit / Mockito tests: **Not implemented yet**
-* ❌ TDD: **Not followed**
-* ⏳ Postman collection: **Planned**
-* ⏳ Unit & service tests: **Planned**
-
-Testing will be added incrementally after stabilizing the API surface.
-
----
-
-## Project Goals
-
-This project is intended to demonstrate:
-
-* Secure backend API design
-* Practical RBAC implementation
-* Clean separation of concerns
-* Realistic admin moderation workflows
-* Interview-ready backend architecture
